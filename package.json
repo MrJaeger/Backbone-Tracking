@@ -5,13 +5,13 @@
   "dependencies": {
     "backbone": "0.9.x"
   },
-  "homepage": "http://afeld.github.com/backbone-nested/",
-  "main": "backbone-nested.js",
+  "homepage": "https://github.com/MrJaeger/Backbone-Shallow/",
+  "main": "Backbone-Shallow.js",
   "repositories": [
     {
       "type": "git", 
-      "url": "https://github.com/afeld/backbone-nested.git"
+      "url": "https://github.com/MrJaeger/Backbone-Shallow.git"
     }
   ],
-  "github": "https://github.com/afeld/backbone-nested"
+  "github": "https://github.com/MrJaeger/Backbone-Shallow"
 }
