@@ -18,7 +18,7 @@ var shallow_user = user.createShallowModel()
 shallow_user.set('name', 'Bob')
 shallow_user.set('age', 10)
 
-//Now assume the user did something that should make the changes permenant
+//Now assume the user did something that should make the changes permanent
 shallow_user.updateLinkedModel()
 
 //And now if we check the user, all their attributes will have been updated!
