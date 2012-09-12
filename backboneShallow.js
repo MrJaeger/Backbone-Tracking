@@ -27,6 +27,7 @@ Does not pollute the copied to object with the prototype of the original object
         this[key] = other[key];
       }
     }
+    this.__proto__ = other.__proto__;
     return this;
   };
 
@@ -42,14 +43,14 @@ Does not pollute the copied to object with the prototype of the original object
     var shallowModel,
       _this = this;
     shallowModel = (new Backbone.Model)._extend(this);
-    shallowModel.linkedModel = this;
+    shallowModel.originalModel = this;
     this.shallowModel = shallowModel;
     if ((options != null ? options.updateOnSave : void 0) != null) {
       shallowModel.on('sync', function() {
         if (typeof cb === "function") {
           return cb();
         } else {
-          return _this.updateLinkedModel();
+          return _this.commitModelChanges();
         }
       });
     } else if ((options != null ? options.updateOnDestroy : void 0) != null) {
@@ -69,7 +70,7 @@ Does not pollute the copied to object with the prototype of the original object
   Backbone.Collection.prototype.createShallowCollection = function(options) {
     var model, shallowCollection, tempShallowArray, _i, _len, _ref;
     shallowCollection = (new Backbone.Collection)._extend(this);
-    shallowCollection.linkedCollection = this;
+    shallowCollection.originalCollection = this;
     this.shallowCollection = shallowCollection;
     tempShallowArray = [];
     _ref = this.models;
@@ -86,8 +87,8 @@ Does not pollute the copied to object with the prototype of the original object
   */
 
 
-  Backbone.Model.prototype.updateLinkedModel = function() {
-    return this.linkedModel.set(this.attributes);
+  Backbone.Model.prototype.commitModelChanges = function() {
+    return this.originalModel.set(this.attributes);
   };
 
   /*
@@ -96,16 +97,16 @@ Does not pollute the copied to object with the prototype of the original object
   */
 
 
-  Backbone.Collection.prototype.updateLinkedCollection = function() {
+  Backbone.Collection.prototype.commitCollectionChanges = function() {
     var model, _i, _len, _ref, _results;
     _ref = this.models;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       model = _ref[_i];
-      if (!this.linkedCollection.getByCid(model.cid)) {
-        _results.push(this.linkedCollection.add(model));
-      } else if (model.linkedModel != null) {
-        _results.push(model.updateLinkedModel());
+      if (!this.originalCollection.getByCid(model.cid)) {
+        _results.push(this.originalCollection.add(model));
+      } else if (model.originalModel != null) {
+        _results.push(model.commitModelChanges());
       } else {
         _results.push(void 0);
       }

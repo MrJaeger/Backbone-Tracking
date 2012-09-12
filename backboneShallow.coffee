@@ -16,6 +16,7 @@ _extend = (other)->
 	for key, value of other
 		if other.hasOwnProperty key
 			@[key] = other[key]
+	@.__proto__ = other.__proto__
 	@
 
 ###
@@ -27,10 +28,10 @@ Creates a new Backbone Model which is linked to the original.  Options are as fo
 
 Backbone.Model::createShallowModel = (options)->
 	shallowModel = (new Backbone.Model)._extend(@)
-	shallowModel.linkedModel = @
+	shallowModel.originalModel = @
 	@.shallowModel = shallowModel
 	if options?.updateOnSave?
-		shallowModel.on 'sync', => if typeof(cb) == "function" then cb() else @.updateLinkedModel()
+		shallowModel.on 'sync', => if typeof(cb) == "function" then cb() else @.commitModelChanges()
 	else if options?.updateOnDestroy?
 		shallowModel.on 'destroy', => options.updateOnDestroy()
 	shallowModel
@@ -42,7 +43,7 @@ Options passed here are passed along to the shallowModels created, and are the s
 
 Backbone.Collection::createShallowCollection = (options)->
 	shallowCollection = (new Backbone.Collection)._extend(@)
-	shallowCollection.linkedCollection = @
+	shallowCollection.originalCollection = @
 	@.shallowCollection = shallowCollection
 	tempShallowArray = []
 	for model in @.models
@@ -52,20 +53,19 @@ Backbone.Collection::createShallowCollection = (options)->
 ###
 Sets the original model with all the attributes of the shallowModel
 ###
-Backbone.Model::updateLinkedModel = -> @.linkedModel.set @.attributes
-
+Backbone.Model::commitModelChanges = -> @.originalModel.set @.attributes
 
 ###
 First sets the original model with all the attributes of the shallowModel IF the model is a shallowModel
 If the model is new, it is added to the original collection
 ###
 
-Backbone.Collection::updateLinkedCollection = ->
+Backbone.Collection::commitCollectionChanges = ->
 	for model in @.models
-		if !@.linkedCollection.getByCid model.cid
-			@.linkedCollection.add model
-		else if model.linkedModel?
-			model.updateLinkedModel()
+		if !@.originalCollection.getByCid model.cid
+			@.originalCollection.add model
+		else if model.originalModel?
+			model.commitModelChanges()
 
 ###
 Clears all events on the shallowModel
