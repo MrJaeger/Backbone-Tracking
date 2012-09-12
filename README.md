@@ -13,17 +13,17 @@ var user = new Backbone.Model({
   name: 'Andrew'
 });
 
-var shallow_user = user.createShallowModel()
+var shallow_user = user.createShallowModel();
 
-shallow_user.set('name', 'Bob')
-shallow_user.set('age', 10)
+shallow_user.set('name', 'Bob');
+shallow_user.set('age', 10);
 
 //Now assume the user did something that should make the changes permanent
-shallow_user.updateLinkedModel()
+shallow_user.updateLinkedModel();
 
 //And now if we check the user, all their attributes will have been updated!
-user.get('name') //Will be "Bob"
-user.get('age') //Will be 10
+user.get('name'); //Will be "Bob"
+user.get('age'); //Will be 10
 ```
 
 ## Usage
