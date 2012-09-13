@@ -53,6 +53,7 @@ as well as a `attributeArray` to the model being tracked.  Options can also be p
 functionality:
 
 Options:
+
   onChange: Setting the onChange option as a truthy value will cause a new version of the model to be created whenever the `change` event is fired.
 
   onSave: Setting the onSave options as a truhty value will cause a new version of the model to be created whenever the `sync` event is fired.  If both onChange and onSave are set, it will still only create one new version when a model is saved.
