@@ -68,7 +68,7 @@ Creates a new version of the model.
 
 ###Model.revert (versionsBehind)
 
-Rolls back the model by 1 version (if possible) unless the versionsBehind argument is passed.  If the versionsBehind argument is passed, then the model will roll back by that many versions (if possible).
+Rolls back the model by one version (if possible) unless the versionsBehind argument is passed.  If the versionsBehind argument is passed, then the model will roll back by that many versions (if possible).
 
 ###Model.revertToOriginal
 
@@ -76,7 +76,7 @@ Rolls back the model to the version it was at when tracking was started.
 
 ###Model.progress (versionsAhead)
 
-Progresses the model by 1 version (if possible) unless the versionsAhead argument is passed.  If the versionsAhead argument is passed, then the model will progress by that many versions (if possible).
+Progresses the model by one version (if possible) unless the versionsAhead argument is passed.  If the versionsAhead argument is passed, then the model will progress by that many versions (if possible).
 
 ###Model.progressToNewest
 
