@@ -90,9 +90,9 @@ If changes have been made to the model and have not been commited, they will be 
 
 Search through the tracked history for a state where the queryObj's conditions are met.
 
-    ```coffeescript
-    model.where({name: 'Andrew', age: 10}) #Will search through the tracked history looking for a state where the name of the model was Andrew and the age was 10 and then set the model to that state.  Starts FROM THE BEGINNING OF THE HISTORY
-    ```
+  ```coffeescript
+  model.where({name: 'Andrew', age: 10}) #Will search through the tracked history looking for a state where the name of the model was Andrew and the age was 10 and then set the model to that state.  Starts FROM THE BEGINNING OF THE HISTORY
+  ```
 
 ## Changelog
 
