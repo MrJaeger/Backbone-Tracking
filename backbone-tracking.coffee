@@ -13,8 +13,9 @@ Backbone.Model::stopTracking =->
 	delete @version
 	delete @attributeArray
 
-Backbone.Model::clear =->
-	@setSilently @attributeArray[@version]
+Backbone.Model::commit = ->
+	@version++
+	@attributeArray.push $.extend(true, {}, @attributes)
 
 Backbone.Model::revert = (versionsBehind)->
 	if @version == 0 then return
@@ -38,18 +39,18 @@ Backbone.Model::progressToNewest = ->
 	@setSilently @attributeArray[@attributeArray.length-1]
 	@version = @attributeArray.length-1
 
+Backbone.Model::clear =->
+	@setSilently @attributeArray[@version]
+
 ### Searches older commits first###
 Backbone.Model::where = (queryObj)->
 	tempVersion = 0
 	for commit in @attributeArray
 		flag = true
 		for key, value of queryObj
-			if @get key != value then (flag = false)
+			if commit[key] != value then (flag = false)
 		if flag == true
 			@version = tempVersion
 			@setSilently commit
 			return
-
-Backbone.Model::commit = ->
-	@version++
-	@attributeArray.push $.extend(true, {}, @attributes)
+		tempVersion++

@@ -31,8 +31,9 @@
     return delete this.attributeArray;
   };
 
-  Backbone.Model.prototype.clear = function() {
-    return this.setSilently(this.attributeArray[this.version]);
+  Backbone.Model.prototype.commit = function() {
+    this.version++;
+    return this.attributeArray.push($.extend(true, {}, this.attributes));
   };
 
   Backbone.Model.prototype.revert = function(versionsBehind) {
@@ -69,6 +70,10 @@
     return this.version = this.attributeArray.length - 1;
   };
 
+  Backbone.Model.prototype.clear = function() {
+    return this.setSilently(this.attributeArray[this.version]);
+  };
+
   /* Searches older commits first
   */
 
@@ -82,7 +87,7 @@
       flag = true;
       for (key in queryObj) {
         value = queryObj[key];
-        if (this.get(key !== value)) {
+        if (commit[key] !== value) {
           flag = false;
         }
       }
@@ -91,12 +96,8 @@
         this.setSilently(commit);
         return;
       }
+      tempVersion++;
     }
-  };
-
-  Backbone.Model.prototype.commit = function() {
-    this.version++;
-    return this.attributeArray.push($.extend(true, {}, this.attributes));
   };
 
 }).call(this);
